@@ -104,6 +104,20 @@ These assets may be added later as the project moves from design into execution 
 
 ---
 
+⚙️ Technology Stack
+| Layer                  | Technology                  |
+| ---------------------- | --------------------------- |
+| Programming Language   | Python 3.10+                |
+| Data Processing        | Pandas, NLTK, spaCy         |
+| Deep Learning          | PyTorch                     |
+| NLP / Modeling         | Hugging Face Transformers   |
+| Experiment Tracking    | MLflow                      |
+| API Backend            | FastAPI                     |
+| User Interface         | Streamlit                   |
+| Workflow Orchestration | Apache Airflow *(optional)* |
+| Containerization       | Docker                      |
+| Version Control        | Git, GitHub                 |
+
 ## 🗂️ Repository Structure
 
 ```text
@@ -134,12 +148,3 @@ NHA-4-119/
 
 ---
 
-## 🏁 Conclusion
-
-The **Automated Content Generation System** represents a practical and scalable **DEPI project** that combines modern **AI**, **NLP**, and **MLOps** practices into a complete end-to-end workflow.
-
-Through this project, the team aims to build a system capable of generating high-quality **domain-specific product descriptions** while covering all major project phases, including planning, research, requirements gathering, system design, implementation, testing, and final presentation.
-
-This repository serves as both a **documentation hub** and a **foundation for implementation**, supporting the project from the initial concept stage to execution and final delivery.
-
-> In summary, this project reflects a complete DEPI workflow for designing, organizing, and preparing an AI-powered content generation system for real-world implementation.
