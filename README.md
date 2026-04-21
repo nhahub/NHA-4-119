@@ -1,39 +1,114 @@
-## Automated Content Generation System
+# 🚀 Automated Content Generation System
 
-
----
-
-## Project Description
-
-This repository contains the complete planning, research, requirements, and design documentation for the **Automated Content Generation System** — an end-to-end AI-powered pipeline that automatically generates domain-specific product descriptions using state-of-the-art generative language models.
-
-The system leverages a fine-tuned **GPT-2 Medium** (or optionally **DistilGPT-2** for resource-constrained environments) Transformer-based model as its core production engine, complemented by an experimental GAN-based text generation component for comparative academic analysis. The project covers the full ML lifecycle: data collection and preprocessing, model fine-tuning, pipeline integration, MLOps instrumentation, REST API deployment, and a user-facing Streamlit interface.
+A **DEPI project** for building an end-to-end AI-powered system that generates **domain-specific product descriptions** using modern **Transformer-based language models**.
 
 ---
 
-## Documentation Files
+## 📌 Overview
 
-| # | File | Location | Description |
-|---|------|----------|-------------|
-| 1 | `01_recommended_model_selection.md` | `/docs/research/` | Model selection rationale and comparison |
-| 2 | `02_project_proposal.md` | `/docs/planning/` | Project overview, problem statement, objectives, scope |
-| 3 | `03_project_plan.md` | `/docs/planning/` | Timeline, milestones, Gantt-style schedule |
-| 4 | `04_task_assignment_and_roles.md` | `/docs/planning/` | Team roles and responsibility matrix |
-| 5 | `05_risk_assessment_and_mitigation_plan.md` | `/docs/planning/` | Risk register, risk matrix, mitigation strategies |
-| 6 | `06_kpis.md` | `/docs/planning/` | Key Performance Indicators |
-| 7 | `07_literature_review.md` | `/docs/research/` | Academic literature review |
-| 8 | `08_requirements_gathering.md` | `/docs/requirements/` | Stakeholder analysis, user stories, functional/non-functional requirements |
-| 9 | `09_system_analysis_and_design.md` | `/docs/design/` | Architecture, diagrams, database design, UI/UX, deployment |
+This repository contains the complete **planning, research, requirements, design, implementation, and testing assets** for the **Automated Content Generation System** project under **DEPI**.
+
+The project covers the full workflow of a practical generative AI system, including:
+
+- 📊 Data collection and preprocessing
+- 🧠 Model selection and fine-tuning
+- 🏗️ System analysis and design
+- 🔄 Pipeline integration
+- 📈 MLOps and experiment tracking
+- 🌐 API deployment
+- 🖥️ User interface development
+- 🧪 Testing and final presentation deliverables
+
+The main use case of the system is **Product Description Generation**.
 
 ---
 
-## Suggested Repository Folder Structure
+## 🧠 Model Approach
 
-```
-automated-content-generation/
-│
+The system uses a **Transformer-based text generation model** as the main production approach.
+
+- **Primary model:** Fine-tuned **GPT-2 Medium**
+- **Optional alternative:** **DistilGPT-2**
+- **Experimental model:** **GAN-based text generation** for comparison only
+
+This setup balances **quality**, **practicality**, and **DEPI project requirements**.
+
+---
+
+## 🎯 Project Objectives
+
+The main objectives of this project are to:
+
+- Build a realistic **AI content generation pipeline**
+- Generate high-quality **product descriptions**
+- Apply modern NLP techniques such as **Transformers** and **attention mechanisms**
+- Integrate the system into a usable workflow
+- Use **MLOps practices** for experiment tracking and model management
+- Develop an implementation-ready system with source code, execution flow, and testing support
+- Prepare all required DEPI documentation and final presentation materials
+
+---
+
+## 📂 Documentation Files
+
+| # | File | Location | Purpose |
+|---|------|----------|---------|
+| 1 | `01_recommended_model_selection.md` | `docs/research/` | Model recommendation, comparison, and rationale |
+| 2 | `02_project_proposal.md` | `docs/planning/` | Project overview, objectives, scope, and expected outcomes |
+| 3 | `03_project_plan.md` | `docs/planning/` | Timeline, milestones, deliverables, and schedule |
+| 4 | `04_task_assignment_and_roles.md` | `docs/planning/` | Team roles, responsibilities, and task distribution |
+| 5 | `05_risk_assessment_and_mitigation_plan.md` | `docs/planning/` | Risk matrix, mitigation strategies, and response planning |
+| 6 | `06_kpis.md` | `docs/planning/` | Key Performance Indicators and success metrics |
+| 7 | `07_literature_review.md` | `docs/research/` | Literature review and related work |
+| 8 | `08_requirements_gathering.md` | `docs/requirements/` | Stakeholders, user stories, use cases, and requirements |
+| 9 | `09_system_analysis_and_design.md` | `docs/design/` | Architecture, diagrams, database design, UI/UX, and deployment |
+
+---
+
+## 🛠️ Implementation & Execution
+
+This repository is also prepared to support the **implementation phase** of the project, including:
+
+- Source code development
+- Model training scripts
+- API implementation
+- UI integration
+- Notebook experiments
+- MLflow tracking
+- Testing utilities
+
+Implementation-related assets are expected to be organized under:
+
+- `src/data/`
+- `src/model/`
+- `src/api/`
+- `src/ui/`
+- `notebooks/`
+- `mlflow/`
+- `tests/`
+
+---
+
+## 🧪 Final Presentation & Testing Reports
+
+As part of the **DEPI project workflow**, this repository is also intended to support:
+
+- Final testing reports
+- Validation results
+- Demo preparation
+- Final presentation materials
+- Project execution evidence
+- GitHub-based submission tracking
+
+These assets may be added later as the project moves from design into execution and delivery.
+
+---
+
+## 🗂️ Repository Structure
+
+```text
+NHA-4-119/
 ├── README.md
-│
 ├── docs/
 │   ├── planning/
 │   │   ├── 02_project_proposal.md
@@ -41,50 +116,30 @@ automated-content-generation/
 │   │   ├── 04_task_assignment_and_roles.md
 │   │   ├── 05_risk_assessment_and_mitigation_plan.md
 │   │   └── 06_kpis.md
-│   │
 │   ├── research/
 │   │   ├── 01_recommended_model_selection.md
 │   │   └── 07_literature_review.md
-│   │
 │   ├── requirements/
 │   │   └── 08_requirements_gathering.md
-│   │
 │   └── design/
 │       └── 09_system_analysis_and_design.md
-│
 ├── src/
 │   ├── data/
 │   ├── model/
 │   ├── api/
 │   └── ui/
-│
 ├── notebooks/
-│
 ├── mlflow/
-│
 └── tests/
-```
 
 ---
 
-## Technology Stack (Summary)
+## 🏁 Conclusion
 
-| Layer | Technology |
-|-------|------------|
-| Language | Python 3.10+ |
-| Data Processing | Pandas, NLTK, spaCy |
-| Modelling | PyTorch, Hugging Face Transformers |
-| Experiment Tracking | MLflow |
-| API Layer | FastAPI |
-| UI | Streamlit |
-| Orchestration (optional) | Apache Airflow |
-| Containerisation | Docker |
-| Version Control | Git / GitHub |
+The **Automated Content Generation System** represents a practical and scalable **DEPI project** that combines modern **AI**, **NLP**, and **MLOps** practices into a complete end-to-end workflow.
 
----
+Through this project, the team aims to build a system capable of generating high-quality **domain-specific product descriptions** while covering all major project phases, including planning, research, requirements gathering, system design, implementation, testing, and final presentation.
 
-## Repository Notes
+This repository serves as both a **documentation hub** and a **foundation for implementation**, supporting the project from the initial concept stage to execution and final delivery.
 
-> This repository contains **project planning, research, requirements, analysis, and design documentation** for the Automated Content Generation System. All source code, notebooks, and model artefacts are intended to reside in the `/src` and `/notebooks` directories upon implementation.
-
-
+> In summary, this project reflects a complete DEPI workflow for designing, organizing, and preparing an AI-powered content generation system for real-world implementation.
