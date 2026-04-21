@@ -1,4 +1,4 @@
-🏁 Automated Content Generation System
+## Automated Content Generation System
 
 
 ---
