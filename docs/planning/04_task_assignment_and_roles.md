@@ -16,11 +16,11 @@
 
 | Member ID | Name (Placeholder) | Primary Role | Secondary Role |
 |-----------|--------------------|-------------|----------------|
-| Member 1 | *(Insert Name)* | Project Manager | Documentation Lead |
-| Member 2 | *(Insert Name)* | ML Engineer | Evaluation Specialist |
-| Member 3 | *(Insert Name)* | Data Engineer | Research Support |
-| Member 4 | *(Insert Name)* | Backend & DevOps Engineer | API Developer |
-| Member 5 | *(Insert Name)* | Research Lead & UI Developer | Quality Assurance |
+| Member 1 | Ahmed Farrag | Lead AI Engineer & Project Manager | Technical Coordination and Final Presentation Lead |
+| Member 2 | Farha Mostafa| AI Engineer (Modeling & Training) | Evaluation, Metrics, and Experiment Tracking |
+| Member 3 | Ahmed Amir   | AI Engineer (Data & Preprocessing) | Dataset Preparation and Data Quality Support |
+| Member 4 | Arwa Alaa    | AI Engineer (Backend, Deployment & MLOps) | API Development and Integration Support |
+| Member 5 | Ahmed Farag  | AI Engineer (UI, Testing & System Integration) | Quality Assurance and Demo Preparation |
 
 ---
 
@@ -36,6 +36,10 @@
 - Manage risk register and escalate blockers to the supervisor.
 - Ensure consistency across all documentation deliverables.
 - Compile and review final submission package.
+- Perform quantitative model evaluation (Perplexity, BLEU score).
+- Implement the fine-tuning pipeline using Hugging Face `Trainer` API and PyTorch.
+- Set up and maintain the MLflow experiment tracking server.
+- Develop the SeqGAN experimental module.
 
 **Documentation Deliverables Owned:**
 - `02_project_proposal.md`
@@ -49,7 +53,10 @@
 - GitHub Projects / Trello / Notion (project management)
 - Markdown (documentation)
 - Google Docs / Word (draft collaboration)
-
+- Perform quantitative model evaluation (Perplexity, BLEU score).
+- Implement the fine-tuning pipeline using Hugging Face `Trainer` API and PyTorch.
+- Set up and maintain the MLflow experiment tracking server.
+- Develop the SeqGAN experimental module.
 ---
 
 ### 2.2 Member 2 — ML Engineer / Evaluation Specialist
