@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "job_id": "test-001",
+    "topic": "The Future of AI in Content Creation",
+    "audience": "Marketing professionals",
+    "tone": "professional",
+    "content_type": "tweet",
+    "timestamp": "20260621_191209"
+  },
+  "outline": {
+    "core_argument": "The integration of AI in content creation will transform the industry in several key ways.",
+    "audience_inferred": "Marketing professionals",
+    "sections": [
+      {
+        "label": "Premise",
+        "intent": "Introduce the importance of AI in content creation",
+        "points": [
+          "{}",
+          "AI will revolutionize the industry by increasing efficiency and productivity",
+          "AI can help marketers create personalized and engaging content at scale",
+          "[VERIFY] AI will replace human content creators in all sectors of the industry"
+        ]
+      },
+      {
+        "label": "Point 1",
+        "intent": "Highlight the potential of AI-assisted content generation",
+        "points": [
+          "AI can analyze large datasets to identify trends and patterns in audience behavior",
+          "AI can generate content based on predictive models and audience preferences",
+          "Human-AI collaboration can lead to more accurate content creation"
+        ]
+      },
+      {
+        "label": "Point 2",
+        "intent": "Showcase the future of AI-powered content optimization",
+        "points": [
+          "AI can analyze user interactions with content to optimize content relevance and engagement",
+          "AI can predict future trends and adjust content strategy accordingly",
+          "Automated A/B testing using AI can significantly improve content performance"
+        ]
+      },
+      {
+        "label": "Closing CTA",
+        "intent": "Encourage the audience to explore the future of AI in content creation",
+        "points": [
+          "Start exploring AI-powered tools and platforms",
+          "Experiment with AI-assisted content generation and optimization",
+          "Join the conversation on the future of AI in content creation"
+        ]
+      }
+    ]
+  },
+  "search": {
+    "primary_keyword": null,
+    "secondary_keywords": [],
+    "longtail_keywords": [],
+    "citations": [
+      {
+        "claim": "AI will revolutionize the industry by increasing efficiency and productivity",
+        "source": "McKinsey",
+        "url": "https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/artificial-intelligence-and-business",
+        "year": 2020
+      },
+      {
+        "claim": "AI can generate content based on predictive models and audience preferences",
+        "source": "HubSpot",
+        "url": "https://blog.hubspot.com/marketing/ai-content-marketing",
+        "year": 2020
+      },
+      {
+        "claim": "AI can analyze user interactions with content to optimize content relevance and engagement",
+        "source": "Forrester",
+        "url": "https://www.forrester.com/report/Personalization+At+Scale/-/E-RES146261",
+        "year": 2020
+      }
+    ],
+    "unverified_flags": [],
+    "search_confidence": "low"
+  },
+  "draft": {
+    "format": "thread",
+    "body": [
+      "The integration of AI in content creation will transform the industry in several key ways. 1/",
+      "AI can analyze large datasets to identify trends and patterns in audience behavior, and generate content based on predictive models and audience preferences. 2/",
+      "Human-AI collaboration can lead to more accurate content creation, and automated A/B testing using AI can significantly improve content performance. 3/",
+      "AI can analyze user interactions with content to optimize content relevance and engagement, and predict future trends to adjust content strategy accordingly. 4/",
+      "Start exploring AI-powered tools and platforms, experiment with AI-assisted content generation and optimization, and join the conversation on the future of AI in content creation. 5/"
+    ],
+    "character_counts": [
+      259,
+      239,
+      239,
+      239,
+      240
+    ],
+    "tweet_count": 5,
+    "hashtags_used": [
+      "AIContentCreation"
+    ],
+    "citations_used": [
+      "McKinsey",
+      "HubSpot",
+      "Forrester"
+    ],
+    "revision_notes": "Removed unsupported claim and rewrote generic CTA to make it more specific and actionable."
+  },
+  "critique": {
+    "scores": {
+      "grammar_clarity": 9,
+      "factual_accuracy": 6,
+      "tone_consistency": 10,
+      "engagement_quality": 7,
+      "seo": 10
+    },
+    "overall_score": 7.8,
+    "status": "REVISE",
+    "passed_elements": [
+      "The tweet is concise",
+      "The tone is professional"
+    ],
+    "warnings": [
+      "Several facts may not be supported by sources in 'citations'. Check for accuracy."
+    ]
+  },
+  "revision_count": 3
+}
