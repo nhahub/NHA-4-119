@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "job_id": "test-001",
+    "topic": "The Future of AI in Content Creation",
+    "audience": "Marketing professionals",
+    "tone": "professional",
+    "content_type": "short_story",
+    "timestamp": "20260621_191333"
+  },
+  "outline": {
+    "core_argument": "Exploring the potential impact of AI on the content creation process.",
+    "audience_inferred": "Marketing professionals",
+    "sections": [
+      {
+        "label": "Inciting Incident",
+        "intent": "Introduce a scenario where AI is transforming the content creation landscape.",
+        "points": [
+          "[VERIFY] AI-generated content is increasingly being used in marketing campaigns.",
+          "Marketers are seeking to automate content creation to increase efficiency."
+        ]
+      },
+      {
+        "label": "Rising Tension",
+        "intent": "Highlight the challenges and concerns surrounding AI-generated content.",
+        "points": [
+          "The quality and accuracy of AI-generated content may be inconsistent.",
+          "Marketers must consider the potential loss of human touch and creativity."
+        ]
+      },
+      {
+        "label": "Climax",
+        "intent": "Present a potential future where AI and human creators collaborate.",
+        "points": [
+          "AI can augment human creativity, freeing up time for high-level strategy.",
+          "[VERIFY] AI-generated content can be used to inform and enhance human-created content."
+        ]
+      },
+      {
+        "label": "Resolution",
+        "intent": "Offer a conclusion on the future of AI in content creation.",
+        "points": [
+          "The future of content creation will be a harmonious blend of human and AI capabilities.",
+          "Marketers must be open to embracing AI as a tool to enhance their creative process."
+        ]
+      }
+    ],
+    "verify_flags": [
+      "AI-generated content quality and accuracy",
+      "AI's impact on human creativity"
+    ]
+  },
+  "search": {
+    "primary_keyword": "AI in Content Creation",
+    "secondary_keywords": [
+      "AI-generated content",
+      "content creation efficiency",
+      "human-AI collaboration"
+    ],
+    "longtail_keywords": [
+      "how AI enhances content creation",
+      "future of content creation industry",
+      "AI-generated content quality control"
+    ],
+    "citations": [
+      {
+        "claim": "AI-generated content is increasingly being used in marketing campaigns.",
+        "source": "Accenture",
+        "url": "https://www.accenture.com/_acnmedia/PDF-81/Accenture-How-technology-is-changing-content-creation.pdf",
+        "year": 2020
+      },
+      {
+        "claim": "AI can augment human creativity, freeing up time for high-level strategy.",
+        "source": "Gartner",
+        "url": "https://www.gartner.com/en/newsroom/press-releases/2020-02-18-gartner-says-artificial-intelligence-will-augment-human-creativity",
+        "year": 2020
+      },
+      {
+        "claim": "The quality and accuracy of AI-generated content may be inconsistent.",
+        "source": "Harvard Business Review",
+        "url": "https://hbr.org/2019/07/the-dangers-of-ai-generated-content",
+        "year": 2019
+      },
+      {
+        "claim": "Marketers must consider the potential loss of human touch and creativity.",
+        "source": "Forbes",
+        "url": "https://www.forbes.com/sites/forbestechcouncil/2019/06/20/why-human-creativity-is-still-the-key-to-marketing-success/?sh=5d78a7b46f2b",
+        "year": 2019
+      }
+    ],
+    "unverified_flags": [],
+    "search_confidence": "high"
+  },
+  "draft": {
+    "body": "[TITLE PLACEHOLDER]\nThe elevator creaked open on the 23rd floor, and Emma stepped into the bustling marketing agency. The fluorescent lights hummed above, casting an artificial glow on the rows of cubicles. She had just landed a meeting with the creative director to discuss the latest AI-generated content campaign. Emma had heard rumors that this was the future of marketing – automated, efficient, and always on.\n\nAs she waited for the director, Emma couldn't help but wonder if this was the beginning of the end for human creativity. She had seen the numbers – AI-generated content was increasingly being used in marketing campaigns, and marketers were seeking to automate content creation to increase efficiency. But at what cost? The quality and accuracy of AI-generated content may be inconsistent, and the potential loss of human touch and creativity was a concern she couldn't shake.\n\nJust then, the creative director, Rachel, emerged from her office, a bright smile on her face. 'Emma, great to see you!' she exclaimed. 'I'm excited to show you how AI is transforming our content creation process.' As they walked to the conference room, Emma noticed the screens displaying a seamless blend of AI-generated visuals and human-created copy. It was then that she realized the potential of this technology – AI could augment human creativity, freeing up time for high-level strategy. The future of content creation was no longer a debate; it was a collaboration between humans and machines.\n\nThe meeting ended with Emma leaving the agency feeling both enlightened and concerned. She knew that the future of content creation would be a harmonious blend of human and AI capabilities. Marketers must be open to embracing AI as a tool to enhance their creative process, not replace it. The industry was on the cusp of a revolution, and Emma was eager to see how it would unfold.",
+    "word_count": 316,
+    "opening_line": "The elevator creaked open on the 23rd floor, and Emma stepped into the bustling marketing agency.",
+    "narrative_arc_check": {
+      "inciting_incident": "present",
+      "rising_tension": "present",
+      "climax": "present",
+      "resolution": "present"
+    },
+    "craft_flags": [],
+    "revision_notes": null
+  },
+  "critique": {
+    "scores": {
+      "grammar_clarity": 8,
+      "factual_accuracy": 9,
+      "tone_consistency": 8,
+      "engagement_quality": 9,
+      "seo": 0
+    },
+    "overall_score": 8.2,
+    "status": "PASS",
+    "passed_elements": [
+      "The quality and accuracy of AI-generated content may be inconsistent.",
+      "AI-generated content is increasingly being used in marketing campaigns.",
+      "AI can augment human creativity, freeing up time for high-level strategy.",
+      "The future of content creation will be a harmonious blend of human and AI capabilities.",
+      "Marketers must be open to embracing AI as a tool to enhance their creative process."
+    ],
+    "warnings": []
+  },
+  "revision_count": 1
+}
