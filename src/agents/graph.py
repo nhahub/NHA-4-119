@@ -36,7 +36,7 @@ class Context(TypedDict):
 
 # ── LLM ───────────────────────────────────────────────────────────────────────
 
-api_key="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"
+api_key=""
 llm = ChatOpenRouter(
     model="meta-llama/llama-3.1-8b-instruct",
     api_key=api_key,
