@@ -6,9 +6,10 @@ from typing import TypedDict
 from langgraph.graph import StateGraph, END
 from langchain_core.messages import SystemMessage, HumanMessage
 from datetime import datetime
-
+from langchain_tavily import TavilySearch
 from json_repair import repair_json
 from langchain_openrouter import ChatOpenRouter
+from dotenv import load_dotenv
 
 
 
@@ -36,11 +37,20 @@ class Context(TypedDict):
 
 # ── LLM ───────────────────────────────────────────────────────────────────────
 
-api_key=""
+load_dotenv()  # Load environment variables from .env file
+
+api_key=os.getenv("OpenRouter_API_KEY")
 llm = ChatOpenRouter(
     model="meta-llama/llama-3.1-8b-instruct",
     api_key=api_key,
     
+)
+tavily = TavilySearch(
+    max_results=6,
+    search_depth="advanced",
+    topic="general",
+    include_answer=False,
+    include_raw_content=False,
 )
 
 
@@ -184,7 +194,80 @@ def outline_node(state: Context) -> dict:
     return {"outline": result}
 
 def search_node(state: Context) -> dict:
-    result = call_llm("search.md", build_context_str(state))
+    topic        = state["topic"]
+    content_type = state["content_type"]
+
+    # ── Step 1: Build content-type aware queries ───────────────────────────
+
+    query_map = {
+        "blog": [
+            topic,
+            f"{topic} statistics 2024 2025",
+            f"{topic} research study data",
+        ],
+        "linkedin": [
+            topic,
+            f"{topic} industry trends 2025",
+            f"{topic} professional insights",
+        ],
+        "tweet": [
+            topic,
+            f"{topic} latest news",
+            f"{topic} surprising facts",
+        ],
+        "instagram": [
+            topic,
+            f"{topic} tips tricks",
+            f"{topic} inspiring examples",
+        ],
+        "short_story": [
+            topic,
+            f"{topic} real stories examples",
+            f"{topic} historical events",
+        ],
+    }
+
+    queries = query_map.get(content_type, [topic])
+
+    # ── Step 2: Run Tavily for each query ──────────────────────────────────
+
+    raw_results = []
+    for query in queries:
+        result = tavily.invoke({"query": query})
+        if isinstance(result, list):
+            raw_results.extend(result)
+        elif isinstance(result, dict) and "results" in result:
+            raw_results.extend(result["results"])
+
+    # ── Step 3: Deduplicate by URL ─────────────────────────────────────────
+
+    seen = set()
+    unique_results = []
+    for r in raw_results:
+        url = r.get("url", "")
+        if url not in seen:
+            seen.add(url)
+            unique_results.append(r)
+
+    # ── Step 4: Format Tavily results for the LLM ─────────────────────────
+
+    tavily_context = "\n\n".join([
+        f"Title: {r.get('title', 'Unknown')}\n"
+        f"Source: {r.get('url', '').split('/')[2] if r.get('url') else 'Unknown'}\n"
+        f"URL: {r.get('url', '')}\n"
+        f"Content: {r.get('content', '')}"
+        for r in unique_results[:6]
+    ])
+
+    # ── Step 5: Pass context + Tavily results to LLM ──────────────────────
+
+    user_content = (
+        f"{build_context_str(state)}\n\n"
+        f"TAVILY SEARCH RESULTS:\n"
+        f"{tavily_context}"
+    )
+
+    result = call_llm("search.md", user_content)
     return {"search": result}
 
 def router_node(state: Context) -> dict:
