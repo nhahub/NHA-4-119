@@ -1,58 +1,42 @@
-"""Generation router for text content generation."""
+"""Generation router that queues agent pipeline work in the background."""
 
-import time
-from fastapi import APIRouter, HTTPException, status
-from src.api.schemas import GenerationRequest, GenerationResponse
-from src.api.services.generation_service import generation_service
+from fastapi import APIRouter, BackgroundTasks, Header, status
 
-# Router instance
+from src.api.schemas import GenerationJobResponse, GenerationRequest
+from src.api.services.agent_generation_service import agent_generation_service
+from src.api.services.job_store import job_store
+
+
 router = APIRouter(prefix="/api/v1", tags=["generation"])
 
 
 @router.post(
     "/generate",
-    response_model=GenerationResponse,
-    status_code=status.HTTP_200_OK,
-    summary="Generate Text Content",
-    description="Generate text content like blog posts or articles using the AI model",
+    response_model=GenerationJobResponse,
+    status_code=status.HTTP_202_ACCEPTED,
+    summary="Queue Text Content Generation",
+    description="Queue an agent-based generation job and return immediately.",
     responses={
+        202: {"description": "Generation job queued"},
         422: {"description": "Validation Error"},
-        500: {"description": "Internal Server Error"},
     },
 )
-async def generate_content(request: GenerationRequest) -> GenerationResponse:
-    """
-    Generate text content based on the provided details.
-    
-    - **topic**: Main topic or title for the content (required)
-    - **content_type**: Type of content: blog, post, article, etc. (required)
-    - **style**: Writing style: informative, casual, professional, etc. (optional)
-    - **keywords**: Keywords to include in the content (optional)
-    - **max_tokens**: Maximum tokens to generate (optional, default 500)
-    """
-    start_time = time.time()
-    
-    try:
-        # Generate content using the service
-        content = await generation_service.generate(
-            topic=request.topic,
-            content_type=request.content_type,
-            style=request.style,
-            keywords=request.keywords,
-            max_tokens=request.max_tokens,
-        )
-        
-        # Calculate generation time
-        generation_time_ms = int((time.time() - start_time) * 1000)
-        
-        return GenerationResponse(
-            content=content,
-            model_version="v1.0",
-            generation_time_ms=generation_time_ms,
-        )
-        
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error generating content: {str(e)}",
-        )
+async def generate_content(
+    request: GenerationRequest,
+    background_tasks: BackgroundTasks,
+    user_id: str | None = Header(default=None, alias="X-User-Id"),
+) -> GenerationJobResponse:
+    """Create a background job so the frontend does not wait for the full flow."""
+    job = job_store.create(request.model_dump(), user_id=user_id)
+    job_id = job["job_id"]
+
+    # FastAPI runs this after sending the 202 response, avoiding client timeouts.
+    background_tasks.add_task(agent_generation_service.run_job, job_id, request)
+
+    return GenerationJobResponse(
+        job_id=job_id,
+        status="queued",
+        status_url=f"/api/v1/jobs/{job_id}",
+        result_url=f"/api/v1/jobs/{job_id}/result",
+        debug_url=f"/api/v1/jobs/{job_id}/debug",
+    )

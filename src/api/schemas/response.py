@@ -1,7 +1,7 @@
 """Pydantic schemas for response models."""
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Any, Literal, Optional
 
 
 class GenerationResponse(BaseModel):
@@ -19,6 +19,47 @@ class GenerationResponse(BaseModel):
         ...,
         description="Time taken to generate the content in milliseconds"
     )
+
+
+class GenerationJobResponse(BaseModel):
+    """Response returned immediately after a background job is queued."""
+
+    job_id: str = Field(..., description="Unique ID used to poll this job")
+    status: Literal["queued"] = Field(..., description="Initial job status")
+    status_url: str = Field(..., description="Endpoint for polling job status")
+    result_url: str = Field(..., description="Endpoint for reading the final result")
+    debug_url: str = Field(..., description="Endpoint for inspecting agent details")
+
+
+class JobStatusResponse(BaseModel):
+    """Current lifecycle state for a background generation job."""
+
+    job_id: str
+    status: Literal["queued", "running", "completed", "failed"]
+    progress: int = Field(..., ge=0, le=100)
+    message: str
+    error: Optional[str] = None
+    created_at: str
+    updated_at: str
+
+
+class JobResultResponse(BaseModel):
+    """Clean final content returned after a generation job completes."""
+
+    job_id: str
+    status: Literal["completed"]
+    content: str
+    content_type: Optional[str] = None
+    active_writer: Optional[str] = None
+    revision_count: int = 0
+
+
+class JobDebugResponse(BaseModel):
+    """Full normalized agent output for debugging and development."""
+
+    job_id: str
+    status: Literal["completed"]
+    debug: dict[str, Any]
 
 
 class HealthResponse(BaseModel):

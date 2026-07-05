@@ -9,7 +9,7 @@ from fastapi.testclient import TestClient
 
 
 def test_generate_minimal_request(client: TestClient, valid_api_key):
-    """Test generation with minimal required fields."""
+    """Test that generation queues a background job."""
     request = {
         "topic": "Test Topic",
         "content_type": "blog",
@@ -21,9 +21,13 @@ def test_generate_minimal_request(client: TestClient, valid_api_key):
         headers={"X-API-Key": valid_api_key},
     )
     
-    assert response.status_code == 200
+    assert response.status_code == 202
     data = response.json()
-    assert "content" in data
+    assert "job_id" in data
+    assert data["status"] == "queued"
+    assert data["status_url"] == f"/api/v1/jobs/{data['job_id']}"
+    assert data["result_url"] == f"/api/v1/jobs/{data['job_id']}/result"
+    assert data["debug_url"] == f"/api/v1/jobs/{data['job_id']}/debug"
 
 
 def test_generate_missing_topic(client: TestClient, valid_api_key):
