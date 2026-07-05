@@ -2,7 +2,6 @@ import json
 import os
 import re
 from typing import TypedDict
-from langgraph.graph import StateGraph, END
 from langchain_core.messages import SystemMessage, HumanMessage
 from datetime import datetime
 
@@ -33,19 +32,40 @@ class Context(TypedDict):
 
 load_dotenv()  # Load environment variables from .env file
 
-api_key=os.getenv("OpenRouter_API_KEY")
-llm = ChatOpenRouter(
-    model="meta-llama/llama-3.1-8b-instruct",
-    api_key=api_key,
-    
-)
-tavily = TavilySearch(
-    max_results=6,
-    search_depth="advanced",
-    topic="general",
-    include_answer=False,
-    include_raw_content=False,
-)
+_llm: ChatOpenRouter | None = None
+_tavily: TavilySearch | None = None
+
+
+def get_llm() -> ChatOpenRouter:
+    """Create the OpenRouter client only when a job actually needs it."""
+    global _llm
+    if _llm is None:
+        api_key = os.getenv("OpenRouter_API_KEY")
+        if not api_key:
+            raise RuntimeError("OpenRouter_API_KEY is missing from the environment.")
+
+        _llm = ChatOpenRouter(
+            model="meta-llama/llama-3.1-8b-instruct",
+            api_key=api_key,
+        )
+    return _llm
+
+
+def get_tavily() -> TavilySearch:
+    """Create the Tavily client lazily so the API can start without search keys."""
+    global _tavily
+    if _tavily is None:
+        if not os.getenv("TAVILY_API_KEY"):
+            raise RuntimeError("TAVILY_API_KEY is missing from the environment.")
+
+        _tavily = TavilySearch(
+            max_results=6,
+            search_depth="advanced",
+            topic="general",
+            include_answer=False,
+            include_raw_content=False,
+        )
+    return _tavily
 
 # Get the directory where graph.py lives
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -142,7 +162,7 @@ def call_llm(prompt_file: str, user_content: str) -> dict:
         SystemMessage(content=load_prompt(prompt_file)),
         HumanMessage(content=user_content),
     ]
-    response = llm.invoke(messages)
+    response = get_llm().invoke(messages)
     raw = response.content
 
     if not raw or not raw.strip():
@@ -211,6 +231,7 @@ def build_search_queries(topic: str, content_type: str) -> list[str]:
 
 def run_tavily(queries: list[str]) -> list[dict]:
     raw_results = []
+    tavily = get_tavily()
     for query in queries:
         result = tavily.invoke({"query": query})
         if isinstance(result, list):

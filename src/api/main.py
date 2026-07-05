@@ -7,9 +7,8 @@ from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from src.config import settings
-from src.api.routers import health, generate
-from src.api.services.generation_service import generation_service
+from src.config.settings import settings
+from src.api.routers import generate, health, jobs
 
 # Configure logging
 logging.basicConfig(
@@ -25,18 +24,9 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting Content Generation API...")
     health.set_app_start_time(time.time())
-    health.set_model_loaded(False)
-    
-    # Load local model
-    try:
-        generation_service.load_model(
-            model_path=settings.model_path,
-            model_name=settings.model_name,
-        )
-        health.set_model_loaded(generation_service.is_model_loaded())
-    except Exception as e:
-        logger.error(f"Failed to load model: {e}")
-        health.set_model_loaded(False)
+    # The current backend uses remote agent providers, so there is no local
+    # model to load during startup. Provider keys are checked inside each job.
+    health.set_model_loaded(True)
     
     logger.info("Application started successfully")
     
@@ -88,6 +78,7 @@ async def log_requests(request: Request, call_next):
 # Include routers
 app.include_router(health.router)
 app.include_router(generate.router)
+app.include_router(jobs.router)
 
 
 # Global exception handler
