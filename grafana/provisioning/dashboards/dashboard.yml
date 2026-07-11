@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: "content-generation-dashboards"
+    orgId: 1
+    folder: "Content Generation"
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    options:
+      path: /var/lib/grafana/dashboards

@@ -1,5 +1,6 @@
 # python 3.13.5  ← fix the patch number
 
+# Backend/API dependencies
 fastapi==0.110.0
 uvicorn==0.29.0
 python-dotenv==1.0.0
@@ -8,13 +9,26 @@ pydantic-settings==2.0.0
 
 langchain==1.3.4          # latest stable
 langgraph==1.2.6          # confirmed latest
+langchain-core>=0.3.0
 langchain-tavily
 langchain-openrouter
+langchain-openai>=0.3.0
 json-repair
+requests>=2.31.0
 
-pytest==8.0.0
-httpx==0.28.1
-ollama==0.6.2             # only if you need local model fallback
+# Monitoring / observability
+prometheus-client==0.20.0
+
+# Database / migrations
 SQLAlchemy==2.0.51
 psycopg2-binary==2.9.12
 alembic==1.18.5
+
+# Testing
+pytest==8.0.0
+httpx==0.28.1
+ollama==0.6.2             # only if you need local model fallback
+
+# Frontend note:
+# The React/Vite frontend is managed in lexora-frontend/package.json and built via Docker.
+# Prometheus and Grafana are managed through docker-compose.yml using official container images.

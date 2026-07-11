@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+.env
+.venv/
+venv/
+.git/
+.gitignore
+.pytest_cache/
+.mypy_cache/
+node_modules/
+lexora-frontend/node_modules/
+lexora-frontend/dist/

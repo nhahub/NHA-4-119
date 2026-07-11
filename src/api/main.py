@@ -5,7 +5,7 @@ import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 
 from src.config.settings import settings
 from src.api.routers import generate, health, jobs
@@ -101,6 +101,17 @@ async def root():
         "version": settings.api_version,
         "status": "running",
     }
+
+
+@app.get("/metrics", tags=["metrics"])
+async def metrics() -> Response:
+    """Simple Prometheus-compatible metrics endpoint."""
+    payload = """
+# HELP api_up API server availability
+# TYPE api_up gauge
+api_up 1
+""".strip()
+    return Response(content=payload, media_type="text/plain; version=0.0.4")
 
 
 if __name__ == "__main__":
