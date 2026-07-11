@@ -1,5 +1,6 @@
 """Job tracking backed by the database, with a local memory fallback."""
 
+import logging
 import os
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -8,6 +9,8 @@ from typing import Any
 from uuid import uuid4
 
 from sqlalchemy.exc import SQLAlchemyError
+
+logger = logging.getLogger(__name__)
 
 from src.database.database import SessionLocal
 from src.models import (
@@ -65,13 +68,14 @@ class JobStore:
                         updated_at=now,
                     )
                     session.add(row)
+                    session.flush()  # guarantee generation_jobs row exists before the FK-dependent insert below
                     session.add(self._build_content_generation(job_id, user_id, request_payload, now))
                     session.commit()
                     session.refresh(row)
                     self._database_available = True
                     return self._row_to_dict(row)
-            except SQLAlchemyError:
-                self._handle_database_failure()
+            except SQLAlchemyError as exc:
+                self._handle_database_failure(exc, action="create")
 
         return self._memory_create(job_data)
 
@@ -83,8 +87,8 @@ class JobStore:
                     row = session.get(GenerationJob, job_id)
                     self._database_available = True
                     return self._row_to_dict(row) if row else None
-            except SQLAlchemyError:
-                self._handle_database_failure()
+            except SQLAlchemyError as exc:
+                self._handle_database_failure(exc, action="get")
 
         return self._memory_get(job_id)
 
@@ -103,8 +107,8 @@ class JobStore:
                     session.refresh(row)
                     self._database_available = True
                     return self._row_to_dict(row)
-            except SQLAlchemyError:
-                self._handle_database_failure()
+            except SQLAlchemyError as exc:
+                self._handle_database_failure(exc, action="update")
 
         return self._memory_update(job_id, **changes)
 
@@ -112,10 +116,18 @@ class JobStore:
         """Use DB until it fails once; strict mode raises instead of falling back."""
         return self._database_available is not False
 
-    def _handle_database_failure(self) -> None:
-        """Switch to memory unless strict database mode is enabled."""
+    def _handle_database_failure(self, exc: Exception, action: str) -> None:
+        """Log the real DB error, then switch to memory unless strict mode is on."""
+        logger.exception(
+            "Database %s failed; %s. Underlying error: %s",
+            action,
+            "raising because JOB_STORE_STRICT_DATABASE=true"
+            if self._strict_database
+            else "falling back to in-memory job store for the rest of this process",
+            exc,
+        )
         if self._strict_database:
-            raise
+            raise exc
         self._database_available = False
 
     @staticmethod

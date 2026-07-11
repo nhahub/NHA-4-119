@@ -4,10 +4,11 @@ import re
 from typing import TypedDict
 from langchain_core.messages import SystemMessage, HumanMessage
 from datetime import datetime
-
-from langchain_tavily import TavilySearch
+import requests
 from json_repair import repair_json
+from langchain_tavily import TavilySearch
 from langchain_openrouter import ChatOpenRouter
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 
 # ── State ─────────────────────────────────────────────────────────────────────
@@ -33,7 +34,17 @@ class Context(TypedDict):
 load_dotenv()  # Load environment variables from .env file
 
 _llm: ChatOpenRouter | None = None
+_local_llms: dict[str, ChatOpenAI] = {}
 _tavily: TavilySearch | None = None
+
+
+def _use_local_model() -> bool:
+    return os.getenv("USE_LOCAL_MODEL", "false").lower() == "true"
+
+
+def _select_adapter(prompt_file: str) -> str:
+    """adapter2 handles blog content, adapter1 handles everything else (posts)."""
+    return "adapter2" if "blog" in prompt_file.lower() else "adapter1"
 
 
 def get_llm() -> ChatOpenRouter:
@@ -51,6 +62,24 @@ def get_llm() -> ChatOpenRouter:
     return _llm
 
 
+def get_local_llm(adapter: str) -> ChatOpenAI:
+    """Create (and cache) an OpenAI-compatible client per adapter, pointed at the
+    local Phi-3 server's /v1/chat/completions endpoint."""
+    global _local_llms
+    if adapter not in _local_llms:
+        base_url = os.getenv("LOCAL_MODEL_URL")
+        if not base_url:
+            raise RuntimeError("LOCAL_MODEL_URL is missing from the environment.")
+
+        _local_llms[adapter] = ChatOpenAI(
+            base_url=f"{base_url.rstrip('/')}/v1",
+            api_key="demo",  # server does not validate this, any non-empty string works
+            model=f"phi3:{adapter}",
+            temperature=0.7,
+        )
+    return _local_llms[adapter]
+
+
 def get_tavily() -> TavilySearch:
     """Create the Tavily client lazily so the API can start without search keys."""
     global _tavily
@@ -66,7 +95,6 @@ def get_tavily() -> TavilySearch:
             include_raw_content=False,
         )
     return _tavily
-
 # Get the directory where graph.py lives
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Go up one level to src/, then into prompts/
@@ -162,7 +190,13 @@ def call_llm(prompt_file: str, user_content: str) -> dict:
         SystemMessage(content=load_prompt(prompt_file)),
         HumanMessage(content=user_content),
     ]
-    response = get_llm().invoke(messages)
+
+    if _use_local_model():
+        adapter = _select_adapter(prompt_file)
+        response = get_local_llm(adapter).invoke(messages)
+    else:
+        response = get_llm().invoke(messages)
+
     raw = response.content
 
     if not raw or not raw.strip():
@@ -176,8 +210,6 @@ def call_llm(prompt_file: str, user_content: str) -> dict:
         match = re.search(r"\{[\s\S]*\}", raw)
         cleaned = match.group(0).strip() if match else raw.strip()
 
-    # Repair and parse — handles missing commas, unclosed brackets,
-    # unescaped newlines, trailing text, and most LLM JSON mistakes
     repaired = repair_json(cleaned)
     return json.loads(repaired)
 
